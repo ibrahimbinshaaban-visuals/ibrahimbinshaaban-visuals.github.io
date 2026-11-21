@@ -760,6 +760,89 @@ main { position: relative; z-index: 1; }
 .client:hover .client__logo { transform: scale(1.06); }
 .client:hover .client__name { color: var(--text); }
 
+/* Testimonials: glass quote cards with the original screenshots as proof */
+.reviews { align-items: stretch; text-align: left; min-height: auto; }
+.reviews__container { width: min(1060px, 100% - 2 * (168px + 24px)); margin: 0 auto; }
+.reviews__head { margin-bottom: 34px; }
+.reviews__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; }
+.review {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 26px 24px;
+  border-radius: 24px;
+  overflow: hidden;
+  transition: border-color .35s, box-shadow .35s, transform .45s cubic-bezier(.2, .8, .2, 1);
+}
+.review:hover,
+.review.fade.is-visible:hover {
+  transform: translateY(-6px);
+  transition-delay: 0s;
+  border-color: rgba(255, 255, 255, .34);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 24px 50px rgba(0, 0, 0, .5), 0 0 40px rgba(54, 65, 90, .45);
+}
+.review__mark { position: absolute; top: 4px; right: 22px; font: 400 96px / 1 Georgia, serif; color: rgba(135, 146, 174, .22); pointer-events: none; }
+.review__text { position: relative; margin: 0 0 20px; font: 500 clamp(16px, 1.6vw, 19px) / 1.55 var(--font-body); color: var(--text); }
+.review__shots { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px; margin-bottom: 22px; }
+.review__shot {
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0B141A;
+  cursor: zoom-in;
+  opacity: .8;
+  transition: opacity .3s, border-color .3s, transform .3s;
+}
+.review__shot img { display: block; height: 124px; width: auto; max-width: 100%; object-fit: contain; }
+.review__shot:hover { opacity: 1; border-color: rgba(255, 255, 255, .34); transform: translateY(-2px); }
+.review__who { display: flex; align-items: center; gap: 12px; margin-top: auto; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .08); }
+.review__avatar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(54, 65, 90, .7);
+  border: 1px solid rgba(135, 146, 174, .35);
+  color: var(--text);
+  font-size: 18px;
+}
+.review__meta { display: grid; gap: 2px; }
+.review__meta b { font: 600 14px var(--font-display); color: var(--text); }
+.review__meta small { font-size: 12px; color: var(--text-muted); }
+.review__src { margin-left: auto; font-size: 20px; color: #25D366; }
+/* Screenshot viewer */
+.shot-view {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 60px 16px;
+  background: rgba(0, 0, 10, .88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: zoom-out;
+}
+.shot-view[hidden] { display: none; }
+.shot-view__img { max-width: min(560px, 100%); max-height: 100%; border-radius: 16px; box-shadow: 0 30px 80px rgba(0, 0, 0, .6); }
+.shot-view__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 50%;
+  background: rgba(54, 65, 90, .5);
+  color: var(--text);
+  font-size: 22px;
+  cursor: pointer;
+}
+
 /* Contact: two big glass cards (WhatsApp, email) and the social links */
 .contact { align-items: stretch; text-align: left; }
 .contact__container { width: min(1060px, 100% - 2 * (168px + 24px)); margin: 0 auto; }
@@ -896,6 +979,10 @@ main { position: relative; z-index: 1; }
   .stat__label { font-size: 10.5px; letter-spacing: .05em; }
   .projects__container { width: 100%; }
   .clients__container { width: 100%; }
+  .reviews__container { width: 100%; }
+  .reviews__grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .review { padding: 26px 20px 20px; }
+  .review__shot img { height: 104px; }
   .contact__container { width: 100%; }
   .contact__grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .contact__card { padding: 24px 20px 22px; }

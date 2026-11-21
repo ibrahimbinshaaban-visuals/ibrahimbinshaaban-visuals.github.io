@@ -4,6 +4,22 @@
 const SITE = {
   // Paste a YouTube or Vimeo link to your showreel.
   showreelUrl: '',
+  // Testimonials. Each one: the English quote, who it is from (no names), where it came
+  // from, and the cropped screenshots of the original message (shown as proof).
+  testimonials: [
+    {
+      quote: "You're creative, truly creative. I'm amazed. God bless your work.",
+      role: 'Business owner',
+      source: 'WhatsApp',
+      shots: ['assets/img/testimonials/review-2.png'],
+    },
+    {
+      quote: 'Thank you so much, great job. Really, really good. Spot on!',
+      role: 'Business owner',
+      source: 'WhatsApp',
+      shots: ['assets/img/testimonials/review-1a.png', 'assets/img/testimonials/review-1b.png'],
+    },
+  ],
   // Contact. WhatsApp number with the country code and no + or spaces; the message is
   // what the chat opens with.
   contact: {
@@ -330,6 +346,56 @@ document.querySelectorAll('[data-open-reel]').forEach((b) => {
     requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
+})();
+
+// Testimonials: a glass card per quote, with the original screenshots underneath.
+// A click on a screenshot opens it large.
+(() => {
+  const grid = document.querySelector('.reviews__grid');
+  const list = SITE.testimonials || [];
+  if (!grid) return;
+  if (!list.length) { grid.closest('section').hidden = true; return; }
+  const icons = { WhatsApp: 'ri-whatsapp-line' };
+  list.forEach((t, i) => {
+    const li = document.createElement('li');
+    li.className = 'review glass fade';
+    li.style.setProperty('--d', `${(i % 3) * 0.1}s`);
+    li.innerHTML = `
+      <span class="review__mark" aria-hidden="true">&ldquo;</span>
+      <p class="review__text"></p>
+      <div class="review__shots"></div>
+      <div class="review__who">
+        <span class="review__avatar" aria-hidden="true"><i class="ri-user-3-line"></i></span>
+        <span class="review__meta"><b></b><small></small></span>
+        <i class="review__src ${icons[t.source] || 'ri-chat-3-line'}" aria-hidden="true"></i>
+      </div>`;
+    li.querySelector('.review__text').textContent = t.quote;
+    li.querySelector('.review__meta b').textContent = t.role;
+    li.querySelector('.review__meta small').textContent = `via ${t.source}`;
+    const shots = li.querySelector('.review__shots');
+    (t.shots || []).forEach((src) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'review__shot';
+      b.setAttribute('aria-label', 'See the original message');
+      b.innerHTML = `<img src="${src}" alt="Original message" loading="lazy" decoding="async">`;
+      b.addEventListener('click', () => openShot(src));
+      shots.appendChild(b);
+    });
+    grid.appendChild(li);
+  });
+
+  const view = document.querySelector('.shot-view');
+  const img = view?.querySelector('.shot-view__img');
+  function openShot(src) {
+    if (!view) return;
+    img.src = src;
+    view.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  const close = () => { view.hidden = true; document.body.style.overflow = ''; };
+  view?.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && view && !view.hidden) close(); });
 })();
 
 // Contact: WhatsApp and email links, plus a copy button for the email.
