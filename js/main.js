@@ -17,7 +17,7 @@ const SITE = {
     {
       quote: "You're creative, truly creative. I'm amazed. God bless your work.",
       source: 'whatsapp',
-      chat: ['انت مبدع مبدع', 'والله مبدع', 'أنا مذهول الله يطرح البركة في عملك يا اخي'],
+      chat: ['انت مبدع مبدع', 'والله مبدع', '٤٠ ثانية', 'أنا مذهول الله يطرح البركة في عملك يا اخي'],
     },
     {
       quote: 'A creative person who cares about the finest details. Thank you.',
