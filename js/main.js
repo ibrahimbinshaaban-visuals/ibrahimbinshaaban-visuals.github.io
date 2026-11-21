@@ -445,6 +445,28 @@ document.querySelectorAll('[data-open-reel]').forEach((b) => {
   document.querySelectorAll('[data-year]').forEach((s) => { s.textContent = new Date().getFullYear(); });
 })();
 
+// In-page links (menu, logo, back to top): scroll to the section without adding #about
+// and the like to the address. A link opened with a #section still lands there, then the
+// address is cleaned.
+(() => {
+  const clean = () => { if (location.hash) history.replaceState(null, '', location.pathname + location.search); };
+  const target = (hash) => (hash === '#home' || hash === '#' ? document.body : document.querySelector(hash));
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || a.hasAttribute('data-cv')) return;
+    const el = target(a.getAttribute('href'));
+    if (!el) return;
+    e.preventDefault();
+    if (el === document.body) window.scrollTo({ top: 0, behavior: 'smooth' });
+    else el.scrollIntoView({ behavior: 'smooth' });
+    clean();
+  });
+  if (location.hash) {
+    const el = target(location.hash);
+    window.addEventListener('load', () => { if (el && el !== document.body) el.scrollIntoView(); clean(); });
+  }
+})();
+
 // CV button: only shown once SITE.cvUrl has a link.
 (() => {
   document.querySelectorAll('[data-cv]').forEach((a) => {
