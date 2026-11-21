@@ -4,6 +4,13 @@
 const SITE = {
   // Paste a YouTube or Vimeo link to your showreel.
   showreelUrl: '',
+  // Contact. WhatsApp number with the country code and no + or spaces; the message is
+  // what the chat opens with.
+  contact: {
+    whatsapp: '201013621022',
+    whatsappMessage: "Hi Ibrahim, I saw your portfolio and I'd like to talk about a project.",
+    email: 'ibrahimshaaban682@gmail.com',
+  },
   // Link to your CV (a PDF in assets/ or a Google Drive link). Empty = the button stays hidden.
   cvUrl: '',
   // Projects. Each one: title, category (the tabs are made from these), YouTube link,
@@ -323,6 +330,32 @@ document.querySelectorAll('[data-open-reel]').forEach((b) => {
     requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
+})();
+
+// Contact: WhatsApp and email links, plus a copy button for the email.
+(() => {
+  const c = SITE.contact || {};
+  document.querySelectorAll('[data-whatsapp]').forEach((a) => {
+    a.href = `https://wa.me/${c.whatsapp}?text=${encodeURIComponent(c.whatsappMessage || '')}`;
+  });
+  const shown = c.whatsapp ? `+${c.whatsapp.slice(0, 2)} ${c.whatsapp.slice(2, 5)} ${c.whatsapp.slice(5, 8)} ${c.whatsapp.slice(8)}` : '';
+  document.querySelectorAll('[data-whatsapp-text]').forEach((s) => { s.textContent = shown; });
+  document.querySelectorAll('[data-email]').forEach((a) => { a.href = `mailto:${c.email}`; });
+  // Let a long email break only after the @
+  document.querySelectorAll('[data-email-text]').forEach((s) => {
+    const [user, domain] = (c.email || '').split('@');
+    s.textContent = user;
+    if (domain) s.append('@', document.createElement('wbr'), domain);
+  });
+  document.querySelectorAll('[data-copy-email]').forEach((b) => {
+    b.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(c.email); } catch (e) { return; }
+      const label = b.querySelector('span');
+      b.classList.add('is-done'); label.textContent = 'Copied';
+      setTimeout(() => { b.classList.remove('is-done'); label.textContent = 'Copy'; }, 1800);
+    });
+  });
+  document.querySelectorAll('[data-year]').forEach((s) => { s.textContent = new Date().getFullYear(); });
 })();
 
 // CV button: only shown once SITE.cvUrl has a link.

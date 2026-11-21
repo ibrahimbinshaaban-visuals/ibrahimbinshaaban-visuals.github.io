@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=28">
+  <link rel="stylesheet" href="css/style.css?v=30">
 </head>
 <body>
   <div class="cursor" aria-hidden="true"></div>
@@ -195,18 +195,48 @@
       </div>
     </section>
 
-    <!-- Phase 5 and 6: experience, skills, tools -->
-    <section id="experience" class="section">
-      <h2 class="heading"><span class="accent">My Work</span><br>Experience</h2>
-      <p class="placeholder">Phase 5 and 6: timeline, software and plug-ins.</p>
-    </section>
-
-    <!-- Phase 8: contact -->
-    <section id="contact" class="section">
-      <h2 class="heading">Contact <span class="accent">Me</span></h2>
-      <p class="placeholder">Phase 8: email, WhatsApp and socials.</p>
+    <!-- Contact: WhatsApp and email come from SITE.contact in js/main.js -->
+    <section id="contact" class="section contact">
+      <div class="contact__container">
+        <div class="contact__head">
+          <span class="about__kicker fade">Contact</span>
+          <h2 class="heading fade">Let's Work<br><span class="accent">Together</span></h2>
+          <p class="contact__lead fade" style="--d:.08s">Have a project in mind? Send me a message and let's make it move.</p>
+        </div>
+        <div class="contact__grid">
+          <a class="contact__card glass fade" style="--d:.12s" data-whatsapp target="_blank" rel="noopener">
+            <span class="contact__icon contact__icon--wa"><i class="ri-whatsapp-line" aria-hidden="true"></i></span>
+            <span class="contact__label">WhatsApp</span>
+            <span class="contact__value" data-whatsapp-text></span>
+            <span class="contact__go">Start a chat <i class="ri-arrow-right-up-line" aria-hidden="true"></i></span>
+          </a>
+          <div class="contact__card glass fade" style="--d:.2s">
+            <a class="contact__cover" data-email aria-label="Send an email"></a>
+            <span class="contact__icon"><i class="ri-mail-line" aria-hidden="true"></i></span>
+            <span class="contact__label">Email</span>
+            <span class="contact__value" data-email-text></span>
+            <span class="contact__go">Send an email <i class="ri-arrow-right-up-line" aria-hidden="true"></i></span>
+            <button class="contact__copy" type="button" data-copy-email aria-label="Copy email"><i class="ri-file-copy-line" aria-hidden="true"></i><span>Copy</span></button>
+          </div>
+        </div>
+        <div class="contact__social fade" style="--d:.28s">
+          <a href="https://www.instagram.com/ibrahimshaaban.visuals/" target="_blank" rel="noopener" aria-label="Instagram"><i class="ri-instagram-line"></i></a>
+          <a href="https://www.behance.net/ibrahimshaaban1" target="_blank" rel="noopener" aria-label="Behance"><i class="ri-behance-line"></i></a>
+          <a href="https://www.tiktok.com/@ibrahimshaaban.visuals" target="_blank" rel="noopener" aria-label="TikTok"><i class="ri-tiktok-line"></i></a>
+          <a href="https://www.linkedin.com/in/ibrahim-shaaban2001/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+          <a href="https://www.facebook.com/ibra.him.504504" target="_blank" rel="noopener" aria-label="Facebook"><i class="ri-facebook-circle-line"></i></a>
+        </div>
+      </div>
     </section>
   </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <a href="#home" class="footer__logo">Ibrahim</a>
+      <span class="footer__copy">&copy; <span data-year>2026</span> Ibrahim Bin Shaaban</span>
+      <a href="#home" class="footer__top glass" aria-label="Back to top"><i class="ri-arrow-up-line"></i></a>
+    </div>
+  </footer>
 
   <!-- Video player: used by the showreel and every project -->
   <div class="reel" role="dialog" aria-modal="true" aria-label="Video player" hidden>
@@ -222,6 +252,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=28"></script>
+  <script src="js/main.js?v=30"></script>
 </body>
 </html>
