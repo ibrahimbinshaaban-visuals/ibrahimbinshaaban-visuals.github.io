@@ -5,8 +5,16 @@ const SITE = {
   // Paste a YouTube or Vimeo link to your showreel.
   showreelUrl: '',
   // Testimonials. Each one: the English quote, who it is from (no names), where it came
-  // from, and the cropped screenshots of the original message (shown as proof).
+  // from, stars only when the source has a real rating, and the cropped screenshots of the
+  // original message (shown as proof).
   testimonials: [
+    {
+      quote: 'Excellent service, beyond expectations and delivered on the agreed time. Very cooperative and creative.',
+      role: 'Client on Khamsat',
+      source: 'Khamsat',
+      stars: 5,
+      shots: ['assets/img/testimonials/khamsat-1.png'],
+    },
     {
       quote: "You're creative, truly creative. I'm amazed. God bless your work.",
       role: 'Business owner',
@@ -14,10 +22,31 @@ const SITE = {
       shots: ['assets/img/testimonials/review-2.png'],
     },
     {
+      quote: 'A creative person who cares about the finest details. Thank you.',
+      role: 'Client on Khamsat',
+      source: 'Khamsat',
+      stars: 5,
+      shots: ['assets/img/testimonials/khamsat-3.png'],
+    },
+    {
+      quote: 'Kind and cooperative, brings solutions and ideas, and delivers right on time.',
+      role: 'Client on Khamsat',
+      source: 'Khamsat',
+      stars: 5,
+      shots: ['assets/img/testimonials/khamsat-2.png'],
+    },
+    {
       quote: 'Thank you so much, great job. Really, really good. Spot on!',
       role: 'Business owner',
       source: 'WhatsApp',
       shots: ['assets/img/testimonials/review-1a.png', 'assets/img/testimonials/review-1b.png'],
+    },
+    {
+      quote: 'Professional and amazing. Highly recommended!',
+      role: 'Client on Khamsat',
+      source: 'Khamsat',
+      stars: 5,
+      shots: ['assets/img/testimonials/khamsat-4.png'],
     },
   ],
   // Contact. WhatsApp number with the country code and no + or spaces; the message is
@@ -355,19 +384,20 @@ document.querySelectorAll('[data-open-reel]').forEach((b) => {
   const list = SITE.testimonials || [];
   if (!grid) return;
   if (!list.length) { grid.closest('section').hidden = true; return; }
-  const icons = { WhatsApp: 'ri-whatsapp-line' };
+  const icons = { WhatsApp: 'ri-whatsapp-line', Khamsat: 'ri-briefcase-4-line' };
   list.forEach((t, i) => {
     const li = document.createElement('li');
     li.className = 'review glass fade';
     li.style.setProperty('--d', `${(i % 3) * 0.1}s`);
     li.innerHTML = `
       <span class="review__mark" aria-hidden="true">&ldquo;</span>
+      ${t.stars ? `<span class="review__stars" aria-label="${t.stars} out of 5 stars">${'<i class="ri-star-fill"></i>'.repeat(t.stars)}</span>` : ''}
       <p class="review__text"></p>
       <div class="review__shots"></div>
       <div class="review__who">
         <span class="review__avatar" aria-hidden="true"><i class="ri-user-3-line"></i></span>
         <span class="review__meta"><b></b><small></small></span>
-        <i class="review__src ${icons[t.source] || 'ri-chat-3-line'}" aria-hidden="true"></i>
+        <i class="review__src review__src--${t.source.toLowerCase()} ${icons[t.source] || 'ri-chat-3-line'}" aria-hidden="true"></i>
       </div>`;
     li.querySelector('.review__text').textContent = t.quote;
     li.querySelector('.review__meta b').textContent = t.role;

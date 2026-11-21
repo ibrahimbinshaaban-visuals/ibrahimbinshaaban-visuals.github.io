@@ -811,7 +811,10 @@ main { position: relative; z-index: 1; }
 .review__meta { display: grid; gap: 2px; }
 .review__meta b { font: 600 14px var(--font-display); color: var(--text); }
 .review__meta small { font-size: 12px; color: var(--text-muted); }
-.review__src { margin-left: auto; font-size: 20px; color: #25D366; }
+.review__src { margin-left: auto; font-size: 20px; color: var(--text-muted); }
+.review__src--whatsapp { color: #25D366; }
+.review__src--khamsat { color: #F89747; }
+.review__stars { display: flex; gap: 3px; margin-bottom: 12px; color: #F89747; font-size: 15px; }
 /* Screenshot viewer */
 .shot-view {
   position: fixed;
