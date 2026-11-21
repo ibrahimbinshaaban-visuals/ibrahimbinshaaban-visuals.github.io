@@ -4,49 +4,43 @@
 const SITE = {
   // Paste a YouTube or Vimeo link to your showreel.
   showreelUrl: '',
-  // Testimonials. Each one: the English quote, who it is from (no names), where it came
-  // from, stars only when the source has a real rating, and the cropped screenshots of the
-  // original message (shown as proof).
+  // Testimonials. Each one: the English quote, who it is from (no names, no dates), where it
+  // came from (freelance or whatsapp), stars only when the source had a real rating, and the
+  // client's original words: a review text, or the chat lines for a WhatsApp message.
   testimonials: [
     {
       quote: 'Excellent service, beyond expectations and delivered on the agreed time. Very cooperative and creative.',
-      role: 'Client on Khamsat',
-      source: 'Khamsat',
+      source: 'freelance',
       stars: 5,
-      shots: ['assets/img/testimonials/khamsat-1.png'],
+      original: 'الخدمة ممتازة فوق المتوقع، وفي الوقت المتفق عليه، والمصمم كان جدا متعاون ومبدع.',
     },
     {
       quote: "You're creative, truly creative. I'm amazed. God bless your work.",
-      role: 'Business owner',
-      source: 'WhatsApp',
-      shots: ['assets/img/testimonials/review-2.png'],
+      source: 'whatsapp',
+      chat: ['انت مبدع مبدع', 'والله مبدع', 'أنا مذهول الله يطرح البركة في عملك يا اخي'],
     },
     {
       quote: 'A creative person who cares about the finest details. Thank you.',
-      role: 'Client on Khamsat',
-      source: 'Khamsat',
+      source: 'freelance',
       stars: 5,
-      shots: ['assets/img/testimonials/khamsat-3.png'],
+      original: 'شخص مبدع ومهتم في ادق التفاصيل شكرا',
     },
     {
       quote: 'Kind and cooperative, brings solutions and ideas, and delivers right on time.',
-      role: 'Client on Khamsat',
-      source: 'Khamsat',
+      source: 'freelance',
       stars: 5,
-      shots: ['assets/img/testimonials/khamsat-2.png'],
+      original: 'شاب لطيف متعاون يعطي حلول و افكار و تسليم بالوقت المحدد',
     },
     {
       quote: 'Thank you so much, great job. Really, really good. Spot on!',
-      role: 'Business owner',
-      source: 'WhatsApp',
-      shots: ['assets/img/testimonials/review-1a.png', 'assets/img/testimonials/review-1b.png'],
+      source: 'whatsapp',
+      chat: ['حبيبيييك', 'يعطيك العافية', 'اي كتير منيح', 'كفوو'],
     },
     {
       quote: 'Professional and amazing. Highly recommended!',
-      role: 'Client on Khamsat',
-      source: 'Khamsat',
+      source: 'freelance',
       stars: 5,
-      shots: ['assets/img/testimonials/khamsat-4.png'],
+      original: 'محترف ورائع، انصح بشدة!',
     },
   ],
   // Contact. WhatsApp number with the country code and no + or spaces; the message is
@@ -377,55 +371,52 @@ document.querySelectorAll('[data-open-reel]').forEach((b) => {
   requestAnimationFrame(tick);
 })();
 
-// Testimonials: a glass card per quote, with the original screenshots underneath.
-// A click on a screenshot opens it large.
+// Testimonials: a glass card per quote. Under the English quote, the client's own words:
+// a small review box with the stars for freelance reviews, or chat bubbles for WhatsApp.
 (() => {
   const grid = document.querySelector('.reviews__grid');
   const list = SITE.testimonials || [];
   if (!grid) return;
   if (!list.length) { grid.closest('section').hidden = true; return; }
-  const icons = { WhatsApp: 'ri-whatsapp-line', Khamsat: 'ri-briefcase-4-line' };
+  const who = {
+    freelance: { role: 'Verified client', from: 'Freelance platform', icon: 'ri-shield-check-line' },
+    whatsapp: { role: 'Business owner', from: 'via WhatsApp', icon: 'ri-whatsapp-line' },
+  };
+  const stars = (n) => '<i class="ri-star-fill"></i>'.repeat(n);
   list.forEach((t, i) => {
+    const w = who[t.source] || who.freelance;
     const li = document.createElement('li');
     li.className = 'review glass fade';
     li.style.setProperty('--d', `${(i % 3) * 0.1}s`);
     li.innerHTML = `
       <span class="review__mark" aria-hidden="true">&ldquo;</span>
-      ${t.stars ? `<span class="review__stars" aria-label="${t.stars} out of 5 stars">${'<i class="ri-star-fill"></i>'.repeat(t.stars)}</span>` : ''}
+      ${t.stars ? `<span class="review__stars" aria-label="${t.stars} out of 5 stars">${stars(t.stars)}</span>` : ''}
       <p class="review__text"></p>
-      <div class="review__shots"></div>
+      <div class="review__orig review__orig--${t.source}" dir="rtl" lang="ar"></div>
       <div class="review__who">
         <span class="review__avatar" aria-hidden="true"><i class="ri-user-3-line"></i></span>
         <span class="review__meta"><b></b><small></small></span>
-        <i class="review__src review__src--${t.source.toLowerCase()} ${icons[t.source] || 'ri-chat-3-line'}" aria-hidden="true"></i>
+        <i class="review__src review__src--${t.source} ${w.icon}" aria-hidden="true"></i>
       </div>`;
     li.querySelector('.review__text').textContent = t.quote;
-    li.querySelector('.review__meta b').textContent = t.role;
-    li.querySelector('.review__meta small').textContent = `via ${t.source}`;
-    const shots = li.querySelector('.review__shots');
-    (t.shots || []).forEach((src) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'review__shot';
-      b.setAttribute('aria-label', 'See the original message');
-      b.innerHTML = `<img src="${src}" alt="Original message" loading="lazy" decoding="async">`;
-      b.addEventListener('click', () => openShot(src));
-      shots.appendChild(b);
-    });
+    li.querySelector('.review__meta b').textContent = w.role;
+    li.querySelector('.review__meta small').textContent = w.from;
+    const orig = li.querySelector('.review__orig');
+    if (t.chat) {
+      t.chat.forEach((line) => {
+        const s = document.createElement('span');
+        s.className = 'review__bubble';
+        s.textContent = line;
+        orig.appendChild(s);
+      });
+    } else {
+      if (t.stars) orig.insertAdjacentHTML('beforeend', `<span class="review__mini-stars" aria-hidden="true">${stars(t.stars)}</span>`);
+      const p = document.createElement('p');
+      p.textContent = t.original || '';
+      orig.appendChild(p);
+    }
     grid.appendChild(li);
   });
-
-  const view = document.querySelector('.shot-view');
-  const img = view?.querySelector('.shot-view__img');
-  function openShot(src) {
-    if (!view) return;
-    img.src = src;
-    view.hidden = false;
-    document.body.style.overflow = 'hidden';
-  }
-  const close = () => { view.hidden = true; document.body.style.overflow = ''; };
-  view?.addEventListener('click', close);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && view && !view.hidden) close(); });
 })();
 
 // Contact: WhatsApp and email links, plus a copy button for the email.
