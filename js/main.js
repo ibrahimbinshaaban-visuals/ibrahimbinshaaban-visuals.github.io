@@ -59,7 +59,7 @@ const SITE = {
   projects: [
     {
       title: 'Armadio',
-      category: 'Interiors',
+      category: 'Promos & Ads',
       video: 'https://www-ccv.adobe.io/v1/player/ccv/BuFWZItVL4R/embed?api_key=behance1',
       thumb: 'assets/img/projects/armadio.jpg',
       vertical: true,
