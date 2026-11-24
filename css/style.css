@@ -639,23 +639,24 @@ main { position: relative; z-index: 1; }
 .card__num { position: absolute; top: 14px; left: 16px; font: 600 14px var(--font-display); color: var(--text); letter-spacing: .04em; }
 .card__badge {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 11px;
+  right: 11px;
   z-index: 2;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
+  gap: 4px;
+  padding: 4px 9px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, .28);
   background: rgba(54, 65, 90, .75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: var(--text);
-  font: 600 10.5px var(--font-display);
-  letter-spacing: .04em;
+  font: 600 9px var(--font-display);
+  letter-spacing: .02em;
+  white-space: nowrap;
 }
-.card__badge i { font-size: 12px; }
+.card__badge i { font-size: 11px; }
 .card__play {
   position: absolute;
   top: 50%;
@@ -984,6 +985,8 @@ main { position: relative; z-index: 1; }
   .card__title { font-size: 14px; }
   .card__text { left: 12px; right: 12px; bottom: 12px; }
   .card__num { top: 10px; left: 12px; font-size: 12px; }
+  .card__badge { top: 9px; right: 9px; gap: 4px; padding: 4px 8px; font-size: 8.5px; letter-spacing: .02em; }
+  .card__badge i { font-size: 10px; }
   .card__play { width: 46px; height: 46px; margin: -23px 0 0 -23px; font-size: 20px; }
   .projects__tabs { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(-1 * var(--gutter)); padding: 2px var(--gutter); scrollbar-width: none; }
   .projects__tab { flex: none; padding: 10px 18px 10px 14px; font-size: 14px; }

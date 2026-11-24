@@ -245,7 +245,7 @@ document.querySelectorAll('[data-open-reel]').forEach((b) => {
       <button class="card__btn" type="button" aria-label="Play ${p.title}">
         <img class="card__img" src="${thumb(p)}" alt="" loading="lazy" decoding="async">
         <span class="card__num">${String(i + 1).padStart(2, '0')}</span>
-        ${p.breakdown ? '<span class="card__badge"><i class="ri-stack-line" aria-hidden="true"></i>Breakdown</span>' : ''}
+        ${p.breakdown ? '<span class="card__badge"><i class="ri-stack-line" aria-hidden="true"></i>Behind the Edit</span>' : ''}
         <span class="card__play glass" aria-hidden="true"><i class="ri-play-fill"></i></span>
         <span class="card__text">
           <span class="card__cat">${p.category}</span>
