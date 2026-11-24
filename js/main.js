@@ -52,9 +52,20 @@ const SITE = {
   },
   // Link to your CV (a PDF in assets/ or a Google Drive link). Empty = the button stays hidden.
   cvUrl: '',
-  // Projects. Each one: title, category (the tabs are made from these), YouTube link,
-  // vertical (true for 9:16 reels), a short description, and an optional Behance breakdown link.
+  // Projects. Each one: title, category (the tabs are made from these), a video link
+  // (youtube: a YouTube link, or video: a Behance player link), vertical (true for 9:16 reels),
+  // thumb (a card image; YouTube links make their own), a short description, and an optional
+  // Behance breakdown link (the card then shows a Breakdown badge).
   projects: [
+    {
+      title: 'Armadio',
+      category: 'Interiors',
+      video: 'https://www-ccv.adobe.io/v1/player/ccv/BuFWZItVL4R/embed?api_key=behance1',
+      thumb: 'assets/img/projects/armadio.jpg',
+      vertical: true,
+      desc: "A vertical reel for Armadio's kitchen showroom in Dubai: raw clips of three kitchens turned into one continuous walk-through cut to the music, where every cut carries the camera's move into the next shot.",
+      breakdown: 'https://www.behance.net/gallery/258841185/Armadio-',
+    },
     {
       title: 'Dr Lama',
       category: 'Clinics',
@@ -161,6 +172,8 @@ const ytId = (url) => (url || '').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?
 const embedUrl = (url) => {
   const id = ytId(url);
   if (id) return `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1&modestbranding=1`;
+  const c = (url || '').match(/adobe\.io\/v1\/player\/ccv\/([\w-]+)/);
+  if (c) return `https://www-ccv.adobe.io/v1/player/ccv/${c[1]}/embed?api_key=behance1&bgcolor=%23000000&lazyLoading=false`;
   const m = (url || '').match(/vimeo\.com\/(?:video\/)?(\d+)/);
   if (m) return `https://player.vimeo.com/video/${m[1]}?autoplay=1`;
   return null;
@@ -218,6 +231,7 @@ document.querySelectorAll('[data-open-reel]').forEach((b) => {
   if (!grid || !SITE.projects?.length) return;
 
   const thumb = (p) => {
+    if (p.thumb) return p.thumb;
     const id = ytId(p.youtube);
     return p.vertical ? `https://i.ytimg.com/vi/${id}/oar2.jpg` : `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
   };
@@ -231,13 +245,14 @@ document.querySelectorAll('[data-open-reel]').forEach((b) => {
       <button class="card__btn" type="button" aria-label="Play ${p.title}">
         <img class="card__img" src="${thumb(p)}" alt="" loading="lazy" decoding="async">
         <span class="card__num">${String(i + 1).padStart(2, '0')}</span>
+        ${p.breakdown ? '<span class="card__badge"><i class="ri-stack-line" aria-hidden="true"></i>Breakdown</span>' : ''}
         <span class="card__play glass" aria-hidden="true"><i class="ri-play-fill"></i></span>
         <span class="card__text">
           <span class="card__cat">${p.category}</span>
           <span class="card__title">${p.title}</span>
         </span>
       </button>`;
-    li.querySelector('button').addEventListener('click', () => player.open(p.youtube, p));
+    li.querySelector('button').addEventListener('click', () => player.open(p.video || p.youtube, p));
     grid.appendChild(li);
   });
 
@@ -247,6 +262,7 @@ document.querySelectorAll('[data-open-reel]').forEach((b) => {
     'Clinics': 'ri-heart-pulse-line',
     'Real Estate': 'ri-building-2-line',
     'Cars': 'ri-car-line',
+    'Interiors': 'ri-sofa-line',
     'Promos & Ads': 'ri-megaphone-line',
     'AI Videos': 'ri-sparkling-2-line',
     'Talking Heads': 'ri-user-voice-line',

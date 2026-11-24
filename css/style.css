@@ -637,6 +637,25 @@ main { position: relative; z-index: 1; }
   background: linear-gradient(180deg, rgba(0, 0, 10, .4) 0%, rgba(0, 0, 10, 0) 28%, rgba(0, 0, 10, 0) 48%, rgba(0, 0, 10, .94) 100%);
 }
 .card__num { position: absolute; top: 14px; left: 16px; font: 600 14px var(--font-display); color: var(--text); letter-spacing: .04em; }
+.card__badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  background: rgba(54, 65, 90, .75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text);
+  font: 600 10.5px var(--font-display);
+  letter-spacing: .04em;
+}
+.card__badge i { font-size: 12px; }
 .card__play {
   position: absolute;
   top: 50%;
